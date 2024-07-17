@@ -24,12 +24,12 @@ variable "subnet_details" {
       address_prefix = string
     }))
     default = {
-      "sp_01_subnet1" = {
-        name = "sp_01_subnet1"
+      "sp01-subnet1" = {
+        name = "sp01-subnet1"
         address_prefix = "10.30.1.0/24"    //subnet1-nsg subnet-nsg
       },
-      "sp_01_subnet2" = {
-        name = "sp_01_subnet2"
+      "sp01-subnet2" = {
+        name = "sp01-subnet2"
         address_prefix = "10.30.2.0/24"   
       }
 
@@ -37,14 +37,15 @@ variable "subnet_details" {
   
 }
 
-variable "vm_count" {
-  default = 2
-}
+# variable "vm_count" {
+#   type = number
+#   default = 2
+# }
 
-variable "availability_zones" {
-  type    = list(string)
-  default = ["1", "2"]
-}
+# variable "availability_zones" {
+#   type    = list(string)
+#   default = ["1", "2"]
+# }
 
 variable "admin_username" {
   type = string
@@ -53,6 +54,6 @@ variable "admin_username" {
 
 variable "admin_password" {
   type = string
-  default = "passwordazure12"
+  default = "Helloazure0412"
   sensitive = true
 }
