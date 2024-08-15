@@ -4,7 +4,7 @@ locals {
   nsg_names = [for nsg in azurerm_network_security_group.nsg : nsg.name]
   subnet_id = [for i in azurerm_subnet.subnet : i.id]
 
-  # yourPowerShellScript= try(file("scripts/mount-fileshare.ps1"), null)
-  # base64EncodedScript = base64encode(local.yourPowerShellScript)
+  yourPowerShellScript= try(file("script/mount-script.ps1"), null)
+  base64EncodedScript = base64encode(local.yourPowerShellScript)
 
 }

@@ -159,7 +159,7 @@ depends_on = [ azurerm_resource_group.sp_01rg, azurerm_subnet.subnet, azurerm_ne
 // storage account
 
 resource "azurerm_storage_account" "stg-act" {
-  name                     = "azurestorage09871"
+  name                     = "azurestorage45678"
   resource_group_name      = azurerm_resource_group.sp_01rg.name
   location                 = azurerm_resource_group.sp_01rg.location
   account_tier             = "Standard"
@@ -177,21 +177,22 @@ resource "azurerm_storage_share" "fileshare" {
 }
 
 # # Mount the fileshare to Vitrual Machine
-# resource "azurerm_virtual_machine_extension" "fileshare-mount" {
-#   name                 = "vm-mount"
-#   virtual_machine_id   = azurerm_windows_virtual_machine.vm["sp01-subnet1"].id
-#   publisher            = "Microsoft.Compute"
-#   type                 = "CustomScriptExtension"
-#   type_handler_version = "1.9"
+resource "azurerm_virtual_machine_extension" "vm_mount" {
+  name                 = var.vm_mount
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm["sp01-subnet1"].id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.10"
 
-#   protected_settings = <<SETTINGS
-#   {
-#    "commandToExecute": "powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.base64EncodedScript }')) | Out-File -filepath postBuild.ps1\" && powershell -ExecutionPolicy Unrestricted -File postBuild.ps1"
-#   }
-#   SETTINGS
+  protected_settings = <<SETTINGS
+  {
+   "commandToExecute": "powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.base64EncodedScript }')) | Out-File -filepath postBuild.ps1\" && powershell -ExecutionPolicy Unrestricted -File postBuild.ps1"
+  }
+  SETTINGS
 
-#   depends_on = [azurerm_windows_virtual_machine.vm]
-# }
+  depends_on = [ azurerm_windows_virtual_machine.vm ]
+}
+
 
  #  connect to hub(Sp01 <--> Hub)
 

@@ -66,3 +66,7 @@ variable "admin_password" {
   sensitive   = true
 }
 
+variable "vm_mount" {
+  type = string
+  description = "Virtual machine mount name"
+}

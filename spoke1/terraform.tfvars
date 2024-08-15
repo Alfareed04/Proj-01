@@ -19,6 +19,7 @@ subnet_details={
     }
 }
 
-Key_vault = "Spokemykeyvault"
+Key_vault = "proj0001keyvault"
 admin_username = "azureuser"
 admin_password = "Helloazure0412"
+vm_mount = "mount-vm"
