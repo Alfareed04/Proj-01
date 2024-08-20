@@ -24,6 +24,19 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes = [each.value.address_prefix]
   virtual_network_name = azurerm_virtual_network.sp_03vnet["sp03_vnet"].name
   resource_group_name = azurerm_resource_group.sp_03rg.name
+  dynamic "delegation" {
+    for_each = each.key == "sp03-subnet" ? [1] : []
+    content{
+        name = "appservice_delegation"
+        service_delegation {
+        name = "Microsoft.Web/serverFarms"
+        actions = [
+        "Microsoft.Network/virtualNetworks/subnets/action"
+      ]
+    }
+    }
+    
+  }
   depends_on = [ azurerm_resource_group.sp_03rg , azurerm_virtual_network.sp_03vnet ]
 }
 
@@ -57,14 +70,14 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet-integratio
 }
 
 
- #  connect to hub(Sp03 <--> Hub)
+ #  connect to hub
 
 data "azurerm_virtual_network" "hub_vnet" {
   name ="hub_vnet"
   resource_group_name = "hub_rg"
 }
 
-# connect to peering spoke3 to hub (Sp03 <--> hub)
+# connect to peering spoke3 to hub
 resource "azurerm_virtual_network_peering" "Sp03-To-hub" {
   name                      = "Sp03-To-hub"
   resource_group_name       = azurerm_resource_group.sp_03rg.name
@@ -77,7 +90,7 @@ resource "azurerm_virtual_network_peering" "Sp03-To-hub" {
   depends_on = [ azurerm_virtual_network.sp_03vnet , data.azurerm_virtual_network.hub_vnet  ]
 }
 
-#connect peering hub to spoke3(hub <--> Sp03)
+#connect peering hub to spoke3
 resource "azurerm_virtual_network_peering" "hub-To-Sp03" {
   name                      = "hub-To-Sp03"
   resource_group_name       = data.azurerm_virtual_network.hub_vnet.resource_group_name

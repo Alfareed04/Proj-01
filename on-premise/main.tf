@@ -59,101 +59,101 @@ resource "azurerm_virtual_network_gateway" "onprem-vpngw" {
   depends_on = [ azurerm_resource_group.on_prem_rg, azurerm_virtual_network.on_prem_vnet, azurerm_subnet.subnet ]
 }
 
-# Fetch the data from Hub Gateway Public_IP (IP_address)
-data "azurerm_public_ip" "public_ip" {
-  name = "GatewaySubnet-IP"
-  resource_group_name = "hub_rg"
-}
+# # Fetch the data from Hub Gateway Public_IP (IP_address)
+# data "azurerm_public_ip" "public_ip" {
+#   name = "GatewaySubnet-IP"
+#   resource_group_name = "hub_rg"
+# }
 
-# Fetch the data from Hub Virtual Network (address_space)
-data "azurerm_virtual_network" "hub_vnet" {
-  name = "hub_vnet"
-  resource_group_name = "hub_rg"
-}
+# # Fetch the data from Hub Virtual Network (address_space)
+# data "azurerm_virtual_network" "hub_vnet" {
+#   name = "hub_vnet"
+#   resource_group_name = "hub_rg"
+# }
 
-# Created on Local Network Gateway
+# # Created on Local Network Gateway
 
-resource "azurerm_local_network_gateway" "onprem_lngw" {
-  name                = "onprem-local-network-gateway"
-  resource_group_name = azurerm_resource_group.on_prem_rg.name
-  location            = azurerm_resource_group.on_prem_rg.location
+# resource "azurerm_local_network_gateway" "onprem_lngw" {
+#   name                = "onprem-local-network-gateway"
+#   resource_group_name = azurerm_resource_group.on_prem_rg.name
+#   location            = azurerm_resource_group.on_prem_rg.location
 
-  gateway_address = data.azurerm_public_ip.public_ip.ip_address
-  address_space   = [data.azurerm_virtual_network.hub_vnet.address_space[0]]
+#   gateway_address = data.azurerm_public_ip.public_ip.ip_address
+#   address_space   = [data.azurerm_virtual_network.hub_vnet.address_space[0]]
 
-  depends_on = [ azurerm_public_ip.onprem-pip, azurerm_virtual_network_gateway.onprem-vpngw,
-   data.azurerm_public_ip.public_ip, data.azurerm_virtual_network.hub_vnet ]
-}
+#   depends_on = [ azurerm_public_ip.onprem-pip, azurerm_virtual_network_gateway.onprem-vpngw,
+#    data.azurerm_public_ip.public_ip, data.azurerm_virtual_network.hub_vnet ]
+# }
 
-# Created On Connection
+# # Created On Connection
 
-resource "azurerm_virtual_network_gateway_connection" "onprem_connection" {
-  name                           = "onprem-vpn-connection"
-  location                       = azurerm_resource_group.on_prem_rg.location
-  resource_group_name            = azurerm_resource_group.on_prem_rg.name
-  virtual_network_gateway_id     = azurerm_virtual_network_gateway.onprem-vpngw.id
-  local_network_gateway_id       = azurerm_local_network_gateway.onprem_lngw.id
-  type                           = "IPsec"
-  connection_protocol            = "IKEv2"
-  shared_key                      = "your-shared-key"
+# resource "azurerm_virtual_network_gateway_connection" "onprem_connection" {
+#   name                           = "onprem-vpn-connection"
+#   location                       = azurerm_resource_group.on_prem_rg.location
+#   resource_group_name            = azurerm_resource_group.on_prem_rg.name
+#   virtual_network_gateway_id     = azurerm_virtual_network_gateway.onprem-vpngw.id
+#   local_network_gateway_id       = azurerm_local_network_gateway.onprem_lngw.id
+#   type                           = "IPsec"
+#   connection_protocol            = "IKEv2"
+#   shared_key                      = "your-shared-key"
 
-  depends_on = [ azurerm_virtual_network_gateway.onprem-vpngw, azurerm_local_network_gateway.onprem_lngw ]
-}
+#   depends_on = [ azurerm_virtual_network_gateway.onprem-vpngw, azurerm_local_network_gateway.onprem_lngw ]
+# }
 
-data "azurerm_key_vault" "Key_vault" {
-    name = "Spokemykeyvault"
-    resource_group_name = "spoke01_rg"
-}
-data "azurerm_key_vault_secret" "vm_admin_username" {
-     name = "spoke01username"
-     key_vault_id = data.azurerm_key_vault.Key_vault.id
-}
-data "azurerm_key_vault_secret" "vm_admin_password" {
-     name = "spoke01password"
-     key_vault_id = data.azurerm_key_vault.Key_vault.id
-}
+# data "azurerm_key_vault" "Key_vault" {
+#     name = "proj0001keyvault"
+#     resource_group_name = "spoke01_rg"
+# }
+# data "azurerm_key_vault_secret" "vm_admin_username" {
+#      name = "sp01username"
+#      key_vault_id = data.azurerm_key_vault.Key_vault.id
+# }
+# data "azurerm_key_vault_secret" "vm_admin_password" {
+#      name = "sp01password"
+#      key_vault_id = data.azurerm_key_vault.Key_vault.id
+# }
 
-# Created on nic
+# # Created on nic
 
-resource "azurerm_network_interface" "onprem_nic" {
-  name                = "onprem-subnet-nic"
-  location            = azurerm_resource_group.on_prem_rg.location
-  resource_group_name = azurerm_resource_group.on_prem_rg.name
+# resource "azurerm_network_interface" "onprem_nic" {
+#   name                = "onprem-subnet-nic"
+#   location            = azurerm_resource_group.on_prem_rg.location
+#   resource_group_name = azurerm_resource_group.on_prem_rg.name
 
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet["onprem-subnet"].id
-    private_ip_address_allocation = "Dynamic"
-  }
-  depends_on = [ azurerm_resource_group.on_prem_rg, azurerm_subnet.subnet ]
-}
+#   ip_configuration {
+#     name                          = "internal"
+#     subnet_id                     = azurerm_subnet.subnet["onprem-subnet"].id
+#     private_ip_address_allocation = "Dynamic"
+#   }
+#   depends_on = [ azurerm_resource_group.on_prem_rg, azurerm_subnet.subnet ]
+# }
 
-//created to virtual machine
+# //created to virtual machine
 
-resource "azurerm_windows_virtual_machine" "onprem_vm" {
-  name                  = "onprem-vm"
-  location              = azurerm_resource_group.on_prem_rg.location
-  resource_group_name   = azurerm_resource_group.on_prem_rg.name
-  network_interface_ids = [azurerm_network_interface.onprem_nic.id]
-  size                  = "Standard_DS1_v2"
+# resource "azurerm_windows_virtual_machine" "onprem_vm" {
+#   name                  = "onprem-vm"
+#   location              = azurerm_resource_group.on_prem_rg.location
+#   resource_group_name   = azurerm_resource_group.on_prem_rg.name
+#   network_interface_ids = [azurerm_network_interface.onprem_nic.id]
+#   size                  = "Standard_DS1_v2"
 
-  os_disk {
-    name              = "onprem-os-disk"
-    caching           = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-  }
+#   os_disk {
+#     name              = "onprem-os-disk"
+#     caching           = "ReadWrite"
+#     storage_account_type = "Standard_LRS"
+#   }
 
-  source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2019-Datacenter"
-    version   = "latest"
-  }
+#   source_image_reference {
+#     publisher = "MicrosoftWindowsServer"
+#     offer     = "WindowsServer"
+#     sku       = "2019-Datacenter"
+#     version   = "latest"
+#   }
 
-  computer_name  = "onpremvm"
-  admin_username = data.azurerm_key_vault_secret.vm_admin_username.value
-  admin_password = data.azurerm_key_vault_secret.vm_admin_password.value
-}
+#   computer_name  = "onpremvm"
+#   admin_username = data.azurerm_key_vault_secret.vm_admin_username.value
+#   admin_password = data.azurerm_key_vault_secret.vm_admin_password.value
+# }
 
 # Creates the route table
 resource "azurerm_route_table" "route_table" {

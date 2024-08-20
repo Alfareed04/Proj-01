@@ -129,15 +129,15 @@ resource "azurerm_application_gateway" "appGW" {
 }
  
  data "azurerm_key_vault" "Key_vault" {
-    name = "Spokemykeyvault"
+    name = "proj0001keyvault"
     resource_group_name = "spoke01_rg"
 }
 data "azurerm_key_vault_secret" "vm_admin_username" {
-     name = "spoke01username"
+     name = "sp01username"
      key_vault_id = data.azurerm_key_vault.Key_vault.id
 }
 data "azurerm_key_vault_secret" "vm_admin_password" {
-     name = "spoke01password"
+     name = "sp01password"
      key_vault_id = data.azurerm_key_vault.Key_vault.id
 }
 
@@ -177,34 +177,34 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
   depends_on = [ azurerm_resource_group.sp_02rg, azurerm_subnet.subnet, azurerm_application_gateway.appGW ]
 }
 
- #  connect to hub(Spoke_2 <--> Hub)
+#  #  connect to hub(Spoke_2 <--> Hub)
 
-data "azurerm_virtual_network" "hub_vnet" {
-  name ="hub_vnet"
-  resource_group_name = "hub_rg"
-}
+# data "azurerm_virtual_network" "hub_vnet" {
+#   name ="hub_vnet"
+#   resource_group_name = "hub_rg"
+# }
 
-# Establish the Peering between Spoke_2 and Hub networks (Spoke_2 <--> Hub)
-resource "azurerm_virtual_network_peering" "Sp02-To-hub" {
-  name                      = "Sp02-To-hub"
-  resource_group_name       = azurerm_resource_group.sp_02rg.name
-  virtual_network_name      = azurerm_virtual_network.sp_02vnet["spoke_02_vnet"].name
-  remote_virtual_network_id = data.azurerm_virtual_network.hub_vnet.id
-  allow_virtual_network_access = true
-  allow_forwarded_traffic   = true
-  allow_gateway_transit     = false
-  use_remote_gateways       = false
-  depends_on = [ azurerm_virtual_network.sp_02vnet, data.azurerm_virtual_network.hub_vnet  ]
-}
-# Establish the Peering between  Hub and Spoke-2 networks (Hub <--> Spoke_02)
-resource "azurerm_virtual_network_peering" "hub-To-Sp02" {
-  name                      = "hub-To-Sp02"
-  resource_group_name       = data.azurerm_virtual_network.hub_vnet.resource_group_name
-  virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
-  remote_virtual_network_id = azurerm_virtual_network.sp_02vnet["spoke_02_vnet"].id
-  allow_virtual_network_access = true
-  allow_forwarded_traffic   = true
-  allow_gateway_transit     = false
-  use_remote_gateways       = false
-  depends_on = [ azurerm_virtual_network.sp_02vnet , data.azurerm_virtual_network.hub_vnet ]
-}
+# # Establish the Peering between Spoke_2 and Hub networks (Spoke_2 <--> Hub)
+# resource "azurerm_virtual_network_peering" "Sp02-To-hub" {
+#   name                      = "Sp02-To-hub"
+#   resource_group_name       = azurerm_resource_group.sp_02rg.name
+#   virtual_network_name      = azurerm_virtual_network.sp_02vnet["spoke_02_vnet"].name
+#   remote_virtual_network_id = data.azurerm_virtual_network.hub_vnet.id
+#   allow_virtual_network_access = true
+#   allow_forwarded_traffic   = true
+#   allow_gateway_transit     = false
+#   use_remote_gateways       = false
+#   depends_on = [ azurerm_virtual_network.sp_02vnet, data.azurerm_virtual_network.hub_vnet  ]
+# }
+# # Establish the Peering between  Hub and Spoke-2 networks (Hub <--> Spoke_02)
+# resource "azurerm_virtual_network_peering" "hub-To-Sp02" {
+#   name                      = "hub-To-Sp02"
+#   resource_group_name       = data.azurerm_virtual_network.hub_vnet.resource_group_name
+#   virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
+#   remote_virtual_network_id = azurerm_virtual_network.sp_02vnet["spoke_02_vnet"].id
+#   allow_virtual_network_access = true
+#   allow_forwarded_traffic   = true
+#   allow_gateway_transit     = false
+#   use_remote_gateways       = false
+#   depends_on = [ azurerm_virtual_network.sp_02vnet , data.azurerm_virtual_network.hub_vnet ]
+# }

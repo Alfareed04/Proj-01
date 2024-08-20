@@ -9,8 +9,8 @@ terraform {
 
       backend "azurerm" {
     resource_group_name  = "configuration_rg"
-    storage_account_name = "stgacctbackend01"
-    container_name       = "stg-container-backend"
+    storage_account_name = "stgacctconfig"
+    container_name       = "stg-container-config"
     key                  = "hub.tfstate"
   }
 }

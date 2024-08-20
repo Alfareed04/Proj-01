@@ -95,7 +95,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "firewall_rule" {
   firewall_policy_id  = azurerm_firewall_policy.firewall_policy.id
   priority            = 100
 
-  nat_rule_collection {           # Create the DNAT rule collection for take the RDP to OnPremises VM
+  nat_rule_collection {           
     name     = "dnat-rule-collection"
     priority = 100
     action   = "Dnat"
@@ -111,21 +111,21 @@ resource "azurerm_firewall_policy_rule_collection_group" "firewall_rule" {
     }
   }
  
-  network_rule_collection {     # Create the Network rule collection for forwarding the traffic betwwen Hub and OnPremises network
+  network_rule_collection {     
     name     = "network-rule-collection"
     priority = 200
     action   = "Allow"
 
     rule {
       name = "allow-spokes"
-      source_addresses = [ "10.10.0.0/16" ]     # OnPremises network address
-      destination_addresses = [ "10.30.0.0/16" ] # Spoke network address
+      source_addresses = [ "10.10.0.0/16" ]     
+      destination_addresses = [ "10.30.0.0/16" ] 
       destination_ports = [ "*" ]
       protocols = [ "Any" ]
     }
   }
  
-  # application_rule_collection {       # Create the Application rule collection
+  # application_rule_collection {       
   #   name     = "application-rule-collection"
   #   priority = 300
   #   action   = "Allow"
@@ -148,7 +148,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "firewall_rule" {
   depends_on = [ azurerm_firewall.firewall , azurerm_ip_group.ip_grp ]
 }
 
-# Create the VPN Gateway in their Specified Subnet
+# Create the VPN Gateway
 resource "azurerm_virtual_network_gateway" "vpn_gateway" {
   name                = "hub-vpn-gateway"
   location            = azurerm_resource_group.hub_rg.location
@@ -225,7 +225,7 @@ resource "azurerm_route" "route_2" {
   depends_on = [ azurerm_route_table.route_table ]
 }
 
-# Associate the route table with the their subnet
+# Associate the route table
 resource "azurerm_subnet_route_table_association" "route-table-ass" {
    subnet_id                 = azurerm_subnet.subnet["GatewaySubnet"].id
    route_table_id = azurerm_route_table.route_table.id

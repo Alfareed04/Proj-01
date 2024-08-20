@@ -11,7 +11,7 @@ vnet_details={
 subnet_details={
     "sp03-subnet" ={
         subnet_name ="sp03-subnet"
-        address_prefix = "10.30.1.0/24"
+        address_prefix = "10.50.1.0/24"
     }
 }
 
