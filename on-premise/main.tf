@@ -101,7 +101,7 @@ resource "azurerm_virtual_network_gateway_connection" "onprem_connection" {
 }
 
 data "azurerm_key_vault" "Key_vault" {
-    name = "proj0001keyvault"
+    name = "project01keyvault"
     resource_group_name = "spoke01_rg"
 }
 data "azurerm_key_vault_secret" "vm_admin_username" {
