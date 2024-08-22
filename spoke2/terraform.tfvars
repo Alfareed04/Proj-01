@@ -19,5 +19,3 @@ subnet_details={
     }
 }
 
-admin_username = "azureuser"
-admin_password = "Helloazure0412"

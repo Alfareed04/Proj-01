@@ -50,14 +50,14 @@ variable "rules_file" {
   default = "rules.csv"
 }
 
-variable "admin_username" {
-  type = string
-  description = "The Username of the User"
-}
+# variable "admin_username" {
+#   type = string
+#   description = "The Username of the User"
+# }
 
-variable "admin_password" {
-  type = string
-  description = "The Password of the User"
-  sensitive   = true
-}
+# variable "admin_password" {
+#   type = string
+#   description = "The Password of the User"
+#   sensitive   = true
+# }
 

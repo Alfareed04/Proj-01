@@ -54,14 +54,13 @@ resource "azurerm_network_security_group" "nsg" {
 }
 
 
-# // Nsg Association
+// Nsg Association
 
-# resource "azurerm_subnet_network_security_group_association" "nsgass" {
-#   for_each = [for nsg in azurerm_network_security_group.nsg : nsg.id]
-#   network_security_group_id = each.value
-#   subnet_id = azurerm_subnet.subnet[each.key].id
-#   depends_on = [ azurerm_subnet.subnet, azurerm_network_security_group.nsg ]
-# }
+resource "azurerm_subnet_network_security_group_association" "nsgass" {
+  subnet_id = azurerm_subnet.subnet["sp02-subnet1"].id
+  network_security_group_id = azurerm_network_security_group.nsg["sp02-subnet1"].id
+  depends_on = [ azurerm_subnet.subnet, azurerm_network_security_group.nsg ]
+}
 
 # Create the Public IP for Application Gateway
 resource "azurerm_public_ip" "public_ip" {

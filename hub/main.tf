@@ -125,26 +125,6 @@ resource "azurerm_firewall_policy_rule_collection_group" "firewall_rule" {
     }
   }
  
-  # application_rule_collection {       
-  #   name     = "application-rule-collection"
-  #   priority = 300
-  #   action   = "Allow"
- 
-  #   rule {
-  #     name             = "allow-web"
-  #     description      = "Allow-Web-Access"
-  #     source_addresses = ["10.20.1.4"]  # Allow website only from [10.20.1.4]
-  #     protocols {
-  #       type = "Http"
-  #       port = 80
-  #     }
-  #     protocols {
-  #       type = "Https"
-  #       port = 443
-  #     } 
-  #     destination_fqdns = ["*.microsoft.com"]  
-  #   }
-  # } 
   depends_on = [ azurerm_firewall.firewall , azurerm_ip_group.ip_grp ]
 }
 
@@ -230,4 +210,4 @@ resource "azurerm_subnet_route_table_association" "route-table-ass" {
    subnet_id                 = azurerm_subnet.subnet["GatewaySubnet"].id
    route_table_id = azurerm_route_table.route_table.id
   depends_on = [ azurerm_subnet.subnet , azurerm_route_table.route_table ]
-}
+} 
