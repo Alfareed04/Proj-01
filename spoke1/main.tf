@@ -111,7 +111,7 @@ resource "azurerm_key_vault" "Key_vault" {
 // Key vault Username
 
 resource "azurerm_key_vault_secret" "vm_admin_username" {
-  name         = "sp01username"
+  name         = "spoke01username"
   value        = var.admin_username
   key_vault_id = azurerm_key_vault.Key_vault.id
   depends_on = [ azurerm_key_vault.Key_vault ]
@@ -120,7 +120,7 @@ resource "azurerm_key_vault_secret" "vm_admin_username" {
 // Key vault Password
 
 resource "azurerm_key_vault_secret" "vm_admin_password" {
-  name         = "sp01password"
+  name         = "spoke01password"
   value        = var.admin_password
   key_vault_id = azurerm_key_vault.Key_vault.id
   depends_on = [ azurerm_key_vault.Key_vault ]

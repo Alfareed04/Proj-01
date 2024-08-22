@@ -95,21 +95,21 @@ resource "azurerm_firewall_policy_rule_collection_group" "firewall_rule" {
   firewall_policy_id  = azurerm_firewall_policy.firewall_policy.id
   priority            = 100
 
-  nat_rule_collection {           
-    name     = "dnat-rule-collection"
-    priority = 100
-    action   = "Dnat"
+  # nat_rule_collection {           
+  #   name     = "dnat-rule-collection"
+  #   priority = 100
+  #   action   = "Dnat"
 
-    rule {
-      name             = "Allow-RDP"
-      source_addresses = ["103.25.44.14"]   # My Router IP
-      destination_ports = ["3389"]
-      destination_address = azurerm_public_ip.public_ip["AzureFirewallSubnet"].ip_address
-      translated_address = "10.100.2.4"   # destination VM IP
-      translated_port    = "3389"
-      protocols         = ["TCP"]
-    }
-  }
+  #   rule {
+  #     name             = "Allow-RDP"
+  #     source_addresses = ["103.25.44.14"]   # My Router IP
+  #     destination_ports = ["3389"]
+  #     destination_address = azurerm_public_ip.public_ip["AzureFirewallSubnet"].ip_address
+  #     translated_address = "10.100.2.4"   # destination VM IP
+  #     translated_port    = "3389"
+  #     protocols         = ["TCP"]
+  #   }
+  # }
  
   network_rule_collection {     
     name     = "network-rule-collection"
@@ -118,8 +118,8 @@ resource "azurerm_firewall_policy_rule_collection_group" "firewall_rule" {
 
     rule {
       name = "allow-spokes"
-      source_addresses = [ "10.10.0.0/16" ]     
-      destination_addresses = [ "10.30.0.0/16" ] 
+      source_addresses = [ "10.10.0.0/16" ]     #onpremise network
+      destination_addresses = [ "10.30.0.0/16" ]  #spoke1 network
       destination_ports = [ "*" ]
       protocols = [ "Any" ]
     }

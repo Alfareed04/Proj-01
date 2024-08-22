@@ -57,8 +57,8 @@ resource "azurerm_network_security_group" "nsg" {
 // Nsg Association
 
 resource "azurerm_subnet_network_security_group_association" "nsgass" {
-  subnet_id = azurerm_subnet.subnet["sp02-subnet1"].id
-  network_security_group_id = azurerm_network_security_group.nsg["sp02-subnet1"].id
+  subnet_id = azurerm_subnet.subnet["sp02-subnet2"].id
+  network_security_group_id = azurerm_network_security_group.nsg["sp02-subnet2"].id
   depends_on = [ azurerm_subnet.subnet, azurerm_network_security_group.nsg ]
 }
 
@@ -132,11 +132,11 @@ resource "azurerm_application_gateway" "appGW" {
     resource_group_name = "spoke01_rg"
 }
 data "azurerm_key_vault_secret" "vm_admin_username" {
-     name = "sp01username"
+     name = "spoke01username"
      key_vault_id = data.azurerm_key_vault.Key_vault.id
 }
 data "azurerm_key_vault_secret" "vm_admin_password" {
-     name = "sp01password"
+     name = "spoke01password"
      key_vault_id = data.azurerm_key_vault.Key_vault.id
 }
 

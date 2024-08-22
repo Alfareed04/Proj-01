@@ -77,10 +77,8 @@ resource "azurerm_local_network_gateway" "onprem_lngw" {
   name                = "onprem-local-network-gateway"
   resource_group_name = azurerm_resource_group.on_prem_rg.name
   location            = azurerm_resource_group.on_prem_rg.location
-
   gateway_address = data.azurerm_public_ip.public_ip.ip_address
   address_space   = [data.azurerm_virtual_network.hub_vnet.address_space[0]]
-
   depends_on = [ azurerm_public_ip.onprem-pip, azurerm_virtual_network_gateway.onprem-vpngw,
    data.azurerm_public_ip.public_ip, data.azurerm_virtual_network.hub_vnet ]
 }
@@ -105,11 +103,11 @@ data "azurerm_key_vault" "Key_vault" {
     resource_group_name = "spoke01_rg"
 }
 data "azurerm_key_vault_secret" "vm_admin_username" {
-     name = "sp01username"
+     name = "spoke01username"
      key_vault_id = data.azurerm_key_vault.Key_vault.id
 }
 data "azurerm_key_vault_secret" "vm_admin_password" {
-     name = "sp01password"
+     name = "spoke01password"
      key_vault_id = data.azurerm_key_vault.Key_vault.id
 }
 
