@@ -12,7 +12,7 @@ This resource group contains virtual networks (VNets) with associated subnets, n
 ## Architecture Diagram
 
 
-###### Run the Terraform configurations :
+## Run the Terraform configurations :
 Deploy the resources using Terraform,
 ```
 terraform init
