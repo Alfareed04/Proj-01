@@ -10,7 +10,7 @@ This resource group contains virtual networks (VNets) with associated subnets, n
 5. Finally, establish the Local Network Gateway and Connection service to link the On-Premises setup with the Hub.
 
 ## Architecture Diagram
-
+![on-premise](https://github.com/user-attachments/assets/f96135dc-735a-405d-9c99-c304689ef79b)
 
 ## Run the Terraform configurations :
 Deploy the resources using Terraform,
