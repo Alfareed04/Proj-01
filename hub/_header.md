@@ -36,21 +36,19 @@ The Hub Resource Group offers a consolidated platform that delivers centralized 
 11. Enable Virtual Network Peering 🔄
 - Create peering connections between the hub virtual network and spoke virtual networks to allow seamless communication.
 
-### Integrate with On-Premises Network 🏢
-
-1. Identify On-Premises Public IP and Virtual Network 🌍
+12. Identify On-Premises Public IP and Virtual Network 🌍
 - Determine the public IP address and define the virtual network for the on-premises environment.
 
-2. Set Up a Local Network Gateway 🌐
+13. Set Up a Local Network Gateway 🌐
 - Create a local network gateway in Azure to represent the on-premises VPN device, including its public IP address and address space.
 
-3. Establish a VPN Connection 🔗
+14. Establish a VPN Connection 🔗
 - Connect the Azure virtual network gateway to the local network gateway on-premises, specifying the connection type (IPsec) and shared authentication key.
 
-4. Create a Routing Table 🗺️
+15. Create a Routing Table 🗺️
 - Define a routing table to manage traffic flow between the on-premises network and Azure, adding necessary routes for directing traffic through the VPN gateway.
 
-5. Associate the Routing Table with Subnets 🔗
+16. Associate the Routing Table with Subnets 🔗
 - Connect the routing table to the relevant subnets in the hub virtual network to enforce the established routing rules.
 
 ## Architecture Diagram
