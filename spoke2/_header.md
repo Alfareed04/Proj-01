@@ -9,7 +9,7 @@ The Spoke02 resource group establishes a secure Azure network architecture, incl
 #### 🌐 Virtual Network Deployment
 - Creates a virtual network, specifying its address space and associating it with the resource group.
 
-#### Subnet
+#### 🔌 Subnet
 - Establishes subnets within the virtual network, defining their address prefixes.
 
 #### 🛡️ Network Security Group (NSG) Configuration
