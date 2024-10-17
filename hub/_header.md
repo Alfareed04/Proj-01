@@ -1,7 +1,7 @@
 # Hub Resource Group
 The Hub Resource Group offers a consolidated platform that delivers centralized services and networking across the entire infrastructure, serving as the main hub for connectivity and security oversight.
 
-## Configuration Details
+## 🚀 Configuration Overview
 
 1. Create the Resource Group 🗂️
 - Create a resource group to centralize all services and networking elements for the hub.
